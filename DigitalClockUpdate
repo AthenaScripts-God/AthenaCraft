@@ -45,39 +45,88 @@ Create a new JavaFX class that serves as the entry point.
 Use a Label or Text element to display the clock.
 Update Time:
 
-Use a Timeline or AnimationTimer to update the displayed time dynamically.
-Code Example: Here is a simple code snippet:
+Updates Made:
+Added Day Display:
+
+Shows the current day (e.g., "Saturday").
+Uses getDayOfWeek().getDisplayName(...) with TextStyle.FULL for a full day name.
+Added Date Display:
+
+Provides the current date (e.g., "2025-05-10") in ISO format.
+Uses LocalDate.now() for dynamic updates.
+Improved UI Layout:
+
+Used a VBox layout to stack the day, date, and clock vertically.
+Added spacing (10px) and padding for a cleaner look.
+Increased font size for better readability.
+Dynamic Updates:
+
+Updated the Timeline to refresh the time, day, and date every second.
+Customizable Locale:
+
+Uses Locale.getDefault() for day names, making it adaptable to the user's system language settings.
+How to Run:
+Save the file in your repository as DigitalClock.java.
+Ensure that JavaFX is set up correctly in your project (dependencies added via Maven/Gradle or manually).
+Compile and run the application to see the day, date, and time displayed dynamically.
+
+
+Code:
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public class DigitalClock extends Application {
 
     @Override
     public void start(Stage stage) {
+        // Text elements for time, date, and day
         Text clock = new Text();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        Text date = new Text();
+        Text day = new Text();
 
+        // Time formatter
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        // Timeline for updating time, date, and day
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(1), event -> {
-                clock.setText(LocalTime.now().format(formatter));
+                // Get current time
+                clock.setText(LocalTime.now().format(timeFormatter));
+
+                // Get current date
+                LocalDate currentDate = LocalDate.now();
+                date.setText(currentDate.toString()); // Default format: YYYY-MM-DD
+
+                // Get current day of the week
+                String dayOfWeek = currentDate.getDayOfWeek()
+                                              .getDisplayName(TextStyle.FULL, Locale.getDefault());
+                day.setText(dayOfWeek); // Example: "Saturday"
             })
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-        StackPane root = new StackPane(clock);
-        Scene scene = new Scene(root, 300, 200);
+        // Layout using VBox
+        VBox root = new VBox(10, day, date, clock); // 10px spacing between elements
+        root.setStyle("-fx-alignment: center; -fx-padding: 20; -fx-font-size: 20;");
 
-        stage.setTitle("Digital Clock");
+        // Scene setup
+        Scene scene = new Scene(root, 350, 200);
+
+        // Stage setup
+        stage.setTitle("Digital Clock with Day & Date");
         stage.setScene(scene);
         stage.show();
     }
@@ -86,10 +135,18 @@ public class DigitalClock extends Application {
         launch(args);
     }
 }
-
 Integration:
 
 Save this file in your repository, e.g., src/main/java/DigitalClock.java.
+
+🕒 Digital Clock with JavaFX
+This file provides a step-by-step guide and code 🧑‍💻 to create a real-time digital clock ⏰ using JavaFX.
+Key highlights:
+
+🎨 UI Design: Simple and clean layout with a Text element.
+⏱️ Dynamic Updates: Real-time time updates using Timeline.
+🔧 Customizable: Add features like color and format changes.
+Perfect for Java enthusiasts! ☕✨
 Ensure your JavaFX runtime setup is configured correctly.
 Next Steps:
 Testing:
