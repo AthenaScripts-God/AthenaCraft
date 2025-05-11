@@ -1,0 +1,42 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileReaderExample {
+    public static void main(String[] args) {
+        // Specify the file path
+        String filePath = "yourfile.txt";
+
+        // Use try-with-resources to ensure the file is closed properly
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            // Read file line by line
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            // Handle exceptions
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+}
+
+Key Points:
+BufferedReader and FileReader:
+
+FileReader reads the file.
+BufferedReader provides efficient reading and supports reading line-by-line.
+Try-with-Resources:
+
+Ensures the file stream is closed after use, avoiding resource leaks.
+Error Handling:
+
+Catches IOException to handle file-related errors gracefully.
+Instructions to Run:
+Save the program in a file named FileReaderExample.java.
+Place the text file yourfile.txt in the same directory as the Java file (or adjust the filePath to point to the correct location).
+Compile the program using
+javac FileReaderExample.java
+Run the program using:
+java FileReaderExample
