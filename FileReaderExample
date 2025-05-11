@@ -40,3 +40,62 @@ Compile the program using
 javac FileReaderExample.java
 Run the program using:
 java FileReaderExample
+
+
+
+
+To make FileReaderExample a PDF reader, you'll need to integrate a PDF library into your Java project. Here are the steps to modify the FileReaderExample file to support reading PDFs:
+
+Libraries to Use
+Use a library like Apache PDFBox or iText. Both are widely used for working with PDFs in Java:
+
+Apache PDFBox: Free and open-source.
+iText: Powerful but requires a commercial license for non-open-source usage.
+Steps to Modify FileReaderExample
+Add the Library to Your Project:
+
+If using Maven, add the dependency to your pom.xml:
+XML
+<dependency>
+    <groupId>org.apache.pdfbox</groupId>
+    <artifactId>pdfbox</artifactId>
+    <version>2.0.29</version>
+</dependency>
+If you're using Gradle, add the following to your build.gradle:
+Groovy
+implementation 'org.apache.pdfbox:pdfbox:2.0.29'
+Update the Java Code:
+
+Modify the FileReaderExample to read PDF files using PDFBox. Below is an example code snippet:
+Java
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+import java.io.File;
+import java.io.IOException;
+
+public class FileReaderExample {
+    public static void main(String[] args) {
+        String filePath = "example.pdf"; // Path to your PDF file
+
+        try (PDDocument document = PDDocument.load(new File(filePath))) {
+            if (!document.isEncrypted()) {
+                PDFTextStripper pdfStripper = new PDFTextStripper();
+                String text = pdfStripper.getText(document);
+                System.out.println("PDF Content:\n" + text);
+            } else {
+                System.out.println("The PDF is encrypted and cannot be read.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the PDF: " + e.getMessage());
+        }
+    }
+}
+Compile and Run:
+
+Save the changes to FileReaderExample.
+Compile and run the application with a sample PDF file to test the functionality.
+Enhancements (Optional):
+
+Add support for selecting a file via a GUI (JFileChooser).
+Handle PDF metadata or images if needed.
