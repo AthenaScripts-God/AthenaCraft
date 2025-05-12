@@ -1,0 +1,106 @@
+xplanation:
+The program takes a 2D matrix as input.
+It rotates the matrix 90 degrees clockwise or counterclockwise based on user input.
+It demonstrates the logic for matrix rotation using basic loops.
+Code:
+
+import java.util.Scanner;
+
+public class RotationalMatrix {
+
+    // Function to rotate matrix clockwise
+    public static void rotateClockwise(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = i; j < n - i - 1; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = temp;
+            }
+        }
+    }
+
+    // Function to rotate matrix counterclockwise
+    public static void rotateCounterclockwise(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = i; j < n - i - 1; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = temp;
+            }
+        }
+    }
+
+    // Function to display the matrix
+    public static void displayMatrix(int[][] matrix) {
+        for (int[] row : matrix) {
+            for (int val : row) {
+                System.out.print(val + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input matrix size
+        System.out.print("Enter the size of the matrix (n x n): ");
+        int n = scanner.nextInt();
+        int[][] matrix = new int[n][n];
+
+        // Input matrix elements
+        System.out.println("Enter the elements of the matrix:");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = scanner.nextInt();
+            }
+        }
+
+        // Choose rotation direction
+        System.out.print("Choose rotation direction (1 for clockwise, 2 for counterclockwise): ");
+        int choice = scanner.nextInt();
+
+        // Perform rotation
+        if (choice == 1) {
+            rotateClockwise(matrix);
+            System.out.println("Matrix after clockwise rotation:");
+        } else if (choice == 2) {
+            rotateCounterclockwise(matrix);
+            System.out.println("Matrix after counterclockwise rotation:");
+        } else {
+            System.out.println("Invalid choice!");
+            return;
+        }
+
+        // Display the rotated matrix
+        displayMatrix(matrix);
+
+        scanner.close();
+    }
+}
+Instructions to Run:
+Copy the code into a file named RotationalMatrix.java.
+Compile the program using javac RotationalMatrix.java.
+Run the program using java RotationalMatrix.
+Input the matrix size, elements, and rotation direction as prompted.
+Example:
+Input:
+Code
+Enter the size of the matrix (n x n): 3
+Enter the elements of the matrix:
+1 2 3
+4 5 6
+7 8 9
+Choose rotation direction (1 for clockwise, 2 for counterclockwise): 1
+Output:
+Code
+Matrix after clockwise rotation:
+7 4 1
+8 5 2
+9 6 3
